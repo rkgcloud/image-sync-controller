@@ -1,0 +1,23 @@
+# permissions for end users to view imagesyncs.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: image-sync-controller
+    app.kubernetes.io/managed-by: kustomize
+  name: imagesync-viewer-role
+rules:
+- apiGroups:
+  - image.apps.rkgcloud.com
+  resources:
+  - imagesyncs
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - image.apps.rkgcloud.com
+  resources:
+  - imagesyncs/status
+  verbs:
+  - get
