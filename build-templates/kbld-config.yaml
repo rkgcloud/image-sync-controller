@@ -1,0 +1,16 @@
+#@ load("@ytt:data", "data")
+---
+apiVersion: kbld.k14s.io/v1alpha1
+kind: Config
+sources:
+- image: ko://github.com/rkgcloud/image-sync-controller/cmd
+  path: cmd
+  ko:
+    build: {}
+- image: ko://gitlab.eng.vmware.com/build-service/tanzu-build-controller/cmd/postbuild
+  path: cmd/postbuild
+  ko:
+    build: {}
+destinations:
+- image: ko://github.com/rkgcloud/image-sync-controller/cmd
+  newImage: #@ "/".join([data.values.build.registry_host, data.values.build.registry_project, "controller"])

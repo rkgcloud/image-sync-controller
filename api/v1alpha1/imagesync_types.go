@@ -17,7 +17,9 @@ limitations under the License.
 package v1alpha1
 
 import (
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"reconciler.io/runtime/apis"
 )
 
 // ImageSource type defines the standard properties for the source OCI Image and Repository
@@ -58,15 +60,6 @@ type ImageDestination struct {
 	SecretRef []corev1.LocalObjectReference `json:"imagePullSecrets,omitempty"`
 }
 
-//+kubebuilder:object:root=true
-//+kubebuilder:subresource:status
-//+kubebuilder:printcolumn:name="Image",type=string,JSONPath=`.spec.sourceImage.image`
-//+kubebuilder:printcolumn:name="URL",type=string,JSONPath=`.spec.destinationImage.repostoryURL`
-//+kubebuilder:printcolumn:name="Bundle",type=boolean,JSONPath=`.spec.isBundleImage`
-//+kubebuilder:printcolumn:name="Ready",type=string,JSONPath=`.status.conditions[?(@.type=="Ready")].status`
-//+kubebuilder:printcolumn:name="Reason",type=string,JSONPath=`.status.conditions[?(@.type=="Ready")].reason`
-//+kubebuilder:printcolumn:name="Age",type=date,JSONPath=`.metadata.creationTimestamp`
-
 // ImageSyncSpec defines the desired state of ImageSync
 type ImageSyncSpec struct {
 	// +kubebuilder:validation:Required
@@ -93,10 +86,16 @@ type ImageSyncStatus struct {
 	LastSyncTime metav1.Time `json:"lastSyncTime,omitempty"`
 }
 
-// +kubebuilder:object:root=true
-// +kubebuilder:subresource:status
+//+kubebuilder:object:root=true
+//+kubebuilder:subresource:status
+//+kubebuilder:printcolumn:name="Image",type=string,JSONPath=`.spec.sourceImage.image`
+//+kubebuilder:printcolumn:name="URL",type=string,JSONPath=`.spec.destinationImage.repostoryURL`
+//+kubebuilder:printcolumn:name="Bundle",type=boolean,JSONPath=`.spec.isBundleImage`
+//+kubebuilder:printcolumn:name="Ready",type=string,JSONPath=`.status.conditions[?(@.type=="Ready")].status`
+//+kubebuilder:printcolumn:name="Reason",type=string,JSONPath=`.status.conditions[?(@.type=="Ready")].reason`
+//+kubebuilder:printcolumn:name="Age",type=date,JSONPath=`.metadata.creationTimestamp`
 
-// ImageSync is the Schema for the imagesyncs API
+// ImageSync is the Schema for the ImageSyncs API
 type ImageSync struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

@@ -14,19 +14,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package e2e
+package v1alpha1
 
 import (
-	"fmt"
-	"testing"
-
-	. "github.com/onsi/ginkgo/v2"
-	. "github.com/onsi/gomega"
+	imagev1alpha1 "github.com/rkgcloud/image-sync-controller/api/v1alpha1"
 )
 
-// Run e2e tests using the Ginkgo runner.
-func TestE2E(t *testing.T) {
-	RegisterFailHandler(Fail)
-	_, _ = fmt.Fprintf(GinkgoWriter, "Starting image-sync-controller suite\n")
-	RunSpecs(t, "e2e suite")
-}
+// +die:object=true
+type _ = imagev1alpha1.ImageSync
+
+// +die
+type _ = imagev1alpha1.ImageSource
+
+// +die
+type _ = imagev1alpha1.ImageDestination

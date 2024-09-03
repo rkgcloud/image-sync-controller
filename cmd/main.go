@@ -20,10 +20,12 @@ import (
 	"crypto/tls"
 	"flag"
 	"os"
+	"time"
 
 	// Import all Kubernetes client auth plugins (e.g. Azure, GCP, OIDC, etc.)
 	// to ensure that exec-entrypoint and run can make use of them.
 	_ "k8s.io/client-go/plugin/pkg/client/auth"
+	"reconciler.io/runtime/reconcilers"
 
 	"k8s.io/apimachinery/pkg/runtime"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
@@ -144,10 +146,13 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err = (&controller.ImageSyncReconciler{
-		Client: mgr.GetClient(),
-		Scheme: mgr.GetScheme(),
-	}).SetupWithManager(mgr); err != nil {
+	ctx := ctrl.SetupSignalHandler()
+
+	if err = controller.Reconcile(
+		reconcilers.NewConfig(
+			mgr,
+			&imagev1alpha1.ImageSync{},
+			10*time.Hour)).SetupWithManager(ctx, mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "ImageSync")
 		os.Exit(1)
 	}
