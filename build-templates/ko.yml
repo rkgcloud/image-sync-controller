@@ -1,0 +1,7 @@
+#@ load("@ytt:data", "data")
+---
+defaultBaseImage: #@ data.values.build.base_image + ":" + data.values.build.base_image_tag
+builds:
+- id: controller
+  dir: .  #! default is .
+  main: ./cmd/controller

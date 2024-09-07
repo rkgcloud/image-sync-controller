@@ -1,0 +1,10 @@
+#@data/values-schema
+---
+build:
+  registry_host: rkamaldocker
+  registry_project: ""
+  base_image: paketobuildpacks/run-jammy-tiny
+  base_image_tag: latest
+package:
+  version: 0.0.0-dev
+  tag: 0.0.0-dev

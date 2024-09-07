@@ -1,0 +1,30 @@
+#@ load("@ytt:data", "data")
+---
+apiVersion: kctrl.carvel.dev/v1alpha1
+kind: PackageBuild
+metadata:
+  creationTimestamp: null
+  name: controller.image.apps.rkgcloud.com
+spec:
+  release:
+  - resource: {}
+  template:
+    spec:
+      app:
+        spec:
+          deploy:
+          - kapp: {}
+          template:
+          - ytt:
+              paths:
+              - dist
+          - kbld:
+              paths:
+              - '-'
+              - kbld-config.yaml
+      export:
+      - imgpkgBundle:
+          image: #@ "/".join([data.values.build.registry_host, data.values.build.registry_project, "tanzu-build-controller-bundle"])
+          useKbldImagesLock: true
+        includePaths:
+        - dist

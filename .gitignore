@@ -25,4 +25,10 @@ go.work
 *.swp
 *.swo
 *~
-.idea
+carvel-artifacts/
+kbld-config.yml
+kbld-config.yaml
+package-build.yml
+package-resources.yml
+.ko.yaml
+build-pipeline/

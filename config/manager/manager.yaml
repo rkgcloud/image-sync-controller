@@ -63,7 +63,7 @@ spec:
         args:
           - --leader-elect
           - --health-probe-bind-address=:8081
-        image: controller:latest
+        image: ko://github.com/rkgcloud/image-sync-controller/cmd
         name: manager
         securityContext:
           allowPrivilegeEscalation: false
