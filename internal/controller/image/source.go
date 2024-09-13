@@ -1,10 +1,10 @@
-package controller
+package image
 
 import (
 	"context"
 	"errors"
 
-	imagev1alpha1 "github.com/rkgcloud/image-sync-controller/api/v1alpha1"
+	imagev1alpha1 "github.com/rkgcloud/image-sync-controller/api/image/v1alpha1"
 	corev1 "k8s.io/api/core/v1"
 	"reconciler.io/runtime/reconcilers"
 	ctrl "sigs.k8s.io/controller-runtime"

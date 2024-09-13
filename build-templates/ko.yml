@@ -4,4 +4,4 @@ defaultBaseImage: #@ data.values.build.base_image + ":" + data.values.build.base
 builds:
 - id: controller
   dir: .  #! default is .
-  main: ./cmd/controller
+  main: ./cmd/

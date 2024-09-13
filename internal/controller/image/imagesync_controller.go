@@ -14,10 +14,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package controller
+package image
 
 import (
-	imagev1alpha1 "github.com/rkgcloud/image-sync-controller/api/v1alpha1"
+	imagev1alpha1 "github.com/rkgcloud/image-sync-controller/api/image/v1alpha1"
 	"reconciler.io/runtime/reconcilers"
 )
 
@@ -36,6 +36,7 @@ func Reconcile(c reconcilers.Config) *reconcilers.ResourceReconciler[*imagev1alp
 		Reconciler: &reconcilers.WithFinalizer[*imagev1alpha1.ImageSync]{
 			Finalizer: imageSyncFinalizer,
 			Reconciler: reconcilers.Sequence[*imagev1alpha1.ImageSync]{
+				SinglePodReconcile(),
 				SourceReconcile(),
 			},
 		},

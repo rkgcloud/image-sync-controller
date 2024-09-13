@@ -52,3 +52,30 @@ func TestImageDestinationDie_MissingMethods(t *testingx.T) {
 		t.Errorf("found missing fields for ImageDestinationDie: %s", diff.List())
 	}
 }
+
+func TestPodSyncDie_MissingMethods(t *testingx.T) {
+	die := PodSyncBlank
+	ignore := []string{"TypeMeta", "ObjectMeta"}
+	diff := testing.DieFieldDiff(die).Delete(ignore...)
+	if diff.Len() != 0 {
+		t.Errorf("found missing fields for PodSyncDie: %s", diff.List())
+	}
+}
+
+func TestPodSyncStatusDie_MissingMethods(t *testingx.T) {
+	die := PodSyncStatusBlank
+	ignore := []string{}
+	diff := testing.DieFieldDiff(die).Delete(ignore...)
+	if diff.Len() != 0 {
+		t.Errorf("found missing fields for PodSyncStatusDie: %s", diff.List())
+	}
+}
+
+func TestContainerInfoDie_MissingMethods(t *testingx.T) {
+	die := ContainerInfoBlank
+	ignore := []string{}
+	diff := testing.DieFieldDiff(die).Delete(ignore...)
+	if diff.Len() != 0 {
+		t.Errorf("found missing fields for ContainerInfoDie: %s", diff.List())
+	}
+}
