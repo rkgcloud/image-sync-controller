@@ -150,7 +150,7 @@ func main() {
 
 	ctx := ctrl.SetupSignalHandler()
 
-	if err = image.Reconcile(
+	if err = image.ImageSyncReconcile(
 		reconcilers.NewConfig(
 			mgr,
 			&imagev1alpha1.ImageSync{},
@@ -158,10 +158,10 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "ImageSync")
 		os.Exit(1)
 	}
-	if err = (&image.PodSyncReconciler{
-		Client: mgr.GetClient(),
-		Scheme: mgr.GetScheme(),
-	}).SetupWithManager(mgr); err != nil {
+	if err = image.PodSyncReconcile(reconcilers.NewConfig(
+		mgr,
+		&imagev1alpha1.PodSync{},
+		10*time.Hour)).SetupWithManager(ctx, mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "PodSync")
 		os.Exit(1)
 	}

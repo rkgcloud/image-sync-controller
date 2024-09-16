@@ -30,13 +30,12 @@ const imageSyncFinalizer = "image.apps.rkgcloud.com/finalizer"
 // +kubebuilder:rbac:groups=core,resources=serviceaccounts,verbs=get;list;watch
 // +kubebuilder:rbac:groups="",resources=events,verbs=get;list;watch;create;update;patch;delete
 
-func Reconcile(c reconcilers.Config) *reconcilers.ResourceReconciler[*imagev1alpha1.ImageSync] {
+func ImageSyncReconcile(c reconcilers.Config) *reconcilers.ResourceReconciler[*imagev1alpha1.ImageSync] {
 	return &reconcilers.ResourceReconciler[*imagev1alpha1.ImageSync]{
 		Name: "ImageSync",
 		Reconciler: &reconcilers.WithFinalizer[*imagev1alpha1.ImageSync]{
 			Finalizer: imageSyncFinalizer,
 			Reconciler: reconcilers.Sequence[*imagev1alpha1.ImageSync]{
-				SinglePodReconcile(),
 				SourceReconcile(),
 			},
 		},

@@ -542,6 +542,7 @@ rules:
   - ""
   resources:
   - events
+  - pods
   - secrets
   verbs:
   - create

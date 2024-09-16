@@ -42,7 +42,7 @@ func SinglePodReconcile() reconcilers.SubReconciler[*imagev1alpha1.PodSync] {
 			desired.Labels = current.Labels
 			desired.Annotations = current.Annotations
 		},
-		ReflectChildStatusOnParent: func(ctx context.Context, parent *imagev1alpha1.ImageSync, child *corev1.Pod, err error) {
+		ReflectChildStatusOnParent: func(ctx context.Context, parent *imagev1alpha1.PodSync, child *corev1.Pod, err error) {
 			log := logr.FromContextOrDiscard(ctx)
 			if err != nil {
 				log.Error(err, "failed to merge child pod status")
