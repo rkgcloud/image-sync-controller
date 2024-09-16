@@ -18,4 +18,13 @@ resources:
   kind: ImageSync
   path: github.com/rkgcloud/image-sync-controller/api/v1alpha1
   version: v1alpha1
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: apps.rkgcloud.com
+  group: image
+  kind: PodSync
+  path: github.com/rkgcloud/image-sync-controller/api/image/v1alpha1
+  version: v1alpha1
 version: "3"

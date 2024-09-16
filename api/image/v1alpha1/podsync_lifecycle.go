@@ -17,14 +17,25 @@ limitations under the License.
 package v1alpha1
 
 import (
-	imagev1alpha1 "github.com/rkgcloud/image-sync-controller/api/image/v1alpha1"
+	"context"
+
+	"reconciler.io/runtime/apis"
 )
 
-// +die:object=true
-type _ = imagev1alpha1.ImageSync
+const (
+	PodSyncConditionSucceeded    = apis.ConditionReady
+	PodSyncConditionPodCreated   = "PodCreated"
+	PodSyncConditionPodRunning   = "PodRunning"
+	PodSyncConditionPodCompleted = "PodCompleted"
+)
 
-// +die
-type _ = imagev1alpha1.ImageSource
+var PodSyncConditionSet = apis.NewLivingConditionSet(
+	PodSyncConditionPodCreated,
+	PodSyncConditionPodRunning,
+	PodSyncConditionPodCompleted,
+)
 
-// +die
-type _ = imagev1alpha1.ImageDestination
+func (s *PodSyncStatus) InitializeConditions(ctx context.Context) {
+	conditionManager := ImageSyncConditionSet.ManageWithContext(ctx, s)
+	conditionManager.InitializeConditions()
+}

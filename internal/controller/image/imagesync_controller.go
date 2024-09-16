@@ -14,10 +14,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package controller
+package image
 
 import (
-	imagev1alpha1 "github.com/rkgcloud/image-sync-controller/api/v1alpha1"
+	imagev1alpha1 "github.com/rkgcloud/image-sync-controller/api/image/v1alpha1"
 	"reconciler.io/runtime/reconcilers"
 )
 
@@ -30,7 +30,7 @@ const imageSyncFinalizer = "image.apps.rkgcloud.com/finalizer"
 // +kubebuilder:rbac:groups=core,resources=serviceaccounts,verbs=get;list;watch
 // +kubebuilder:rbac:groups="",resources=events,verbs=get;list;watch;create;update;patch;delete
 
-func Reconcile(c reconcilers.Config) *reconcilers.ResourceReconciler[*imagev1alpha1.ImageSync] {
+func ImageSyncReconcile(c reconcilers.Config) *reconcilers.ResourceReconciler[*imagev1alpha1.ImageSync] {
 	return &reconcilers.ResourceReconciler[*imagev1alpha1.ImageSync]{
 		Name: "ImageSync",
 		Reconciler: &reconcilers.WithFinalizer[*imagev1alpha1.ImageSync]{

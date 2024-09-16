@@ -22,6 +22,8 @@ import (
 	"os"
 	"time"
 
+	"github.com/rkgcloud/image-sync-controller/internal/controller/image"
+	"go.uber.org/zap/zapcore"
 	// Import all Kubernetes client auth plugins (e.g. Azure, GCP, OIDC, etc.)
 	// to ensure that exec-entrypoint and run can make use of them.
 	_ "k8s.io/client-go/plugin/pkg/client/auth"
@@ -37,8 +39,7 @@ import (
 	metricsserver "sigs.k8s.io/controller-runtime/pkg/metrics/server"
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
 
-	imagev1alpha1 "github.com/rkgcloud/image-sync-controller/api/v1alpha1"
-	"github.com/rkgcloud/image-sync-controller/internal/controller"
+	imagev1alpha1 "github.com/rkgcloud/image-sync-controller/api/image/v1alpha1"
 	// +kubebuilder:scaffold:imports
 )
 
@@ -73,6 +74,7 @@ func main() {
 		"If set, HTTP/2 will be enabled for the metrics and webhook servers")
 	opts := zap.Options{
 		Development: true,
+		TimeEncoder: zapcore.RFC3339TimeEncoder,
 	}
 	opts.BindFlags(flag.CommandLine)
 	flag.Parse()
@@ -148,12 +150,19 @@ func main() {
 
 	ctx := ctrl.SetupSignalHandler()
 
-	if err = controller.Reconcile(
+	if err = image.ImageSyncReconcile(
 		reconcilers.NewConfig(
 			mgr,
 			&imagev1alpha1.ImageSync{},
 			10*time.Hour)).SetupWithManager(ctx, mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "ImageSync")
+		os.Exit(1)
+	}
+	if err = image.PodSyncReconcile(reconcilers.NewConfig(
+		mgr,
+		&imagev1alpha1.PodSync{},
+		10*time.Hour)).SetupWithManager(ctx, mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "PodSync")
 		os.Exit(1)
 	}
 	// +kubebuilder:scaffold:builder
@@ -168,7 +177,7 @@ func main() {
 	}
 
 	setupLog.Info("starting manager")
-	if err := mgr.Start(ctrl.SetupSignalHandler()); err != nil {
+	if err := mgr.Start(ctx); err != nil {
 		setupLog.Error(err, "problem running manager")
 		os.Exit(1)
 	}

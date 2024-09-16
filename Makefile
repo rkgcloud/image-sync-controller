@@ -1,10 +1,10 @@
 # Image URL to use all building/pushing image targets
-REGISTRY ?= tanzu-build-docker-prod-local.usw1.packages.broadcom.com
-REPOSITORY ?= build-controller
+REGISTRY ?= rkamaldocker
+REPOSITORY ?= ""
 
 VERSION ?= 0.0.0-dev
 TAG ?= 0.0.0-dev
-BASE_IMAGE_WITH_TAG ?= "paketobuildpacks/run-jammy-tiny:latest"
+BASE_IMAGE_WITH_TAG ?= "paketobuildpacks/run-jammy-tiny"
 
 # Suppress kapp prompts with KAPP_ARGS="--yes"
 KAPP_ARGS ?= "--yes=false"
@@ -82,11 +82,11 @@ ko-yaml: ko-setup ## Generates .ko.yaml
 
 .PHONY: build
 build: manifests generate fmt vet ## Build manager binary.
-	go build -o bin/manager cmd/controller/main.go
+	go build -o bin/manager cmd/main.go
 
 .PHONY: run
 run: manifests generate fmt vet test ## Run a controller from your host.
-	go run ./cmd/controller/main.go
+	go run ./cmd/main.go
 
 .PHONY: dist
 dist: manifests generate kustomize ## Generate a consolidated YAML with CRDs and deployment.
@@ -116,7 +116,7 @@ uninstall: manifests kustomize ## Uninstall CRDs from the K8s cluster specified 
 
 .PHONY: sample
 sample:
-	$(KAPP) deploy -a sample -f config/samples/v1* $(KAPP_ARGS)
+	$(KAPP) deploy -a sample -f config/samples/image_v1alpha1_imagesync.yaml $(KAPP_ARGS)
 
 .PHONY: deploy
 deploy: dist ko-yaml ## Deploy controller to the K8s cluster specified in ~/.kube/config.

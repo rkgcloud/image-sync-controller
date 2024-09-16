@@ -1,0 +1,27 @@
+# permissions for end users to edit podsyncs.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: image-sync-controller
+    app.kubernetes.io/managed-by: kustomize
+  name: image-podsync-editor-role
+rules:
+- apiGroups:
+  - image.apps.rkgcloud.com
+  resources:
+  - podsyncs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - image.apps.rkgcloud.com
+  resources:
+  - podsyncs/status
+  verbs:
+  - get

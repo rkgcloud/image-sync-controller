@@ -8,6 +8,7 @@ rules:
   - ""
   resources:
   - events
+  - pods
   - secrets
   verbs:
   - create
@@ -29,6 +30,7 @@ rules:
   - image.apps.rkgcloud.com
   resources:
   - imagesyncs
+  - podsyncs
   verbs:
   - create
   - delete
@@ -41,12 +43,14 @@ rules:
   - image.apps.rkgcloud.com
   resources:
   - imagesyncs/finalizers
+  - podsyncs/finalizers
   verbs:
   - update
 - apiGroups:
   - image.apps.rkgcloud.com
   resources:
   - imagesyncs/status
+  - podsyncs/status
   verbs:
   - get
   - patch

@@ -32,3 +32,4 @@ package-build.yml
 package-resources.yml
 .ko.yaml
 build-pipeline/
+/internal/controller/podstatus.go
