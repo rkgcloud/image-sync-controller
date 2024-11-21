@@ -12,7 +12,7 @@ require (
 	knative.dev/pkg v0.0.0-20240912132815-3002873b449c
 	reconciler.io/dies v0.14.0
 	reconciler.io/runtime v0.21.1
-	sigs.k8s.io/controller-runtime v0.19.1
+	sigs.k8s.io/controller-runtime v0.19.2
 	sigs.k8s.io/yaml v1.4.0
 )
 
