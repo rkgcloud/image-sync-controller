@@ -244,8 +244,8 @@ knative.dev/pkg v0.0.0-20240912132815-3002873b449c h1:zKQ6HpKn6m20GgQ/NThGDFPwP9
 knative.dev/pkg v0.0.0-20240912132815-3002873b449c/go.mod h1:RHUKdAip7yEmlA6dc66hGANdLId04PMd2XJpFhP0EvI=
 reconciler.io/dies v0.14.0 h1:R7ZvJlxUe0AGmkfoUvbM6vMD3UvVjqe1otyn9VXxReA=
 reconciler.io/dies v0.14.0/go.mod h1:SqW4N3DXBfF3wouVfgj2V7AwtYpzxhxtH2nrIcJoeB0=
-reconciler.io/runtime v0.21.1 h1:smUkDXcb8eUNsOeNBPO0++2UP28Q7yMNLx7aCVaBIE4=
-reconciler.io/runtime v0.21.1/go.mod h1:t9C2bh+NE1T3FcMiK91UOXpefiwzTQ2J9tB7LYXDM4c=
+reconciler.io/runtime v0.22.0 h1:75Un+BSHfucKWab/jFfv6hrt11B3S+upzD/7nE4fZy4=
+reconciler.io/runtime v0.22.0/go.mod h1:vE00i+9NQ2a6EUmwuCZzAEKZR9K9m3T2rVKTXFBWkWI=
 sigs.k8s.io/apiserver-network-proxy/konnectivity-client v0.30.3 h1:2770sDpzrjjsAtVhSeUFseziht227YAWYHLGNM8QPwY=
 sigs.k8s.io/apiserver-network-proxy/konnectivity-client v0.30.3/go.mod h1:Ve9uj1L+deCXFrPOk1LpFXqTg7LCFzFso6PA48q/XZw=
 sigs.k8s.io/controller-runtime v0.19.1 h1:Son+Q40+Be3QWb+niBXAg2vFiYWolDjjRfO8hn/cxOk=
