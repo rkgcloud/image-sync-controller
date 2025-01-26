@@ -33,3 +33,5 @@ package-resources.yml
 .ko.yaml
 build-pipeline/
 /internal/controller/podstatus.go
+.run
+.run/isc-dbg.run.xml
