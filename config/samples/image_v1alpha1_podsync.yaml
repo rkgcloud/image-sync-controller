@@ -7,3 +7,5 @@ metadata:
   name: podsync-sample
 spec:
   # TODO(user): Add fields here
+  containers:
+    - imageURL: nginx:latest

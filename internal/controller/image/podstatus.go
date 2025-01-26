@@ -26,12 +26,13 @@ func SinglePodReconcile() reconcilers.SubReconciler[*imagev1alpha1.PodSync] {
 					Namespace: resource.Namespace,
 					Labels: map[string]string{
 						"image-pod": resource.Name,
-						"app":       "nginx"},
+						"app":       resource.Name},
 				},
 				Spec: corev1.PodSpec{
 					Containers: []corev1.Container{
 						{
 							Image: "nginx:latest",
+							Name:  "nginx",
 						},
 					},
 					ActiveDeadlineSeconds: ptr.Int64(100),

@@ -23,7 +23,7 @@ jobs:
         set -o errexit
         set -o nounset
         set -o pipefail
-        
+        go mod tidy
         make manifests generate
         git diff --exit-code
     - name: Test
