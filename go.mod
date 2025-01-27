@@ -8,9 +8,9 @@ require (
 	github.com/go-logr/logr v1.4.2
 	github.com/google/go-cmp v0.6.0
 	go.uber.org/zap v1.27.0
-	k8s.io/api v0.32.0
-	k8s.io/apimachinery v0.32.0
-	k8s.io/client-go v0.32.0
+	k8s.io/api v0.32.1
+	k8s.io/apimachinery v0.32.1
+	k8s.io/client-go v0.32.1
 	knative.dev/pkg v0.0.0-20240912132815-3002873b449c
 	reconciler.io/dies v0.15.0
 	reconciler.io/runtime v0.22.0
