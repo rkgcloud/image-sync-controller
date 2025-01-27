@@ -62,6 +62,15 @@ func TestPodSyncDie_MissingMethods(t *testingx.T) {
 	}
 }
 
+func TestPodSyncStatusDie_MissingMethods(t *testingx.T) {
+	die := PodSyncStatusBlank
+	ignore := []string{}
+	diff := testing.DieFieldDiff(die).Delete(ignore...)
+	if diff.Len() != 0 {
+		t.Errorf("found missing fields for PodSyncStatusDie: %s", diff.List())
+	}
+}
+
 func TestContainerInfoDie_MissingMethods(t *testingx.T) {
 	die := ContainerInfoBlank
 	ignore := []string{}

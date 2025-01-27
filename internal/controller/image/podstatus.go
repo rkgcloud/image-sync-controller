@@ -13,41 +13,59 @@ import (
 )
 
 func SinglePodReconcile() reconcilers.SubReconciler[*imagev1alpha1.PodSync] {
-	return &reconcilers.ChildReconciler[*imagev1alpha1.PodSync, *corev1.Pod, *corev1.PodList]{
-		Name: "SinglePodReconcile",
-		DesiredChild: func(ctx context.Context, resource *imagev1alpha1.PodSync) (*corev1.Pod, error) {
-			return &corev1.Pod{
-				TypeMeta: metav1.TypeMeta{
-					Kind:       "Pod",
-					APIVersion: "v1",
-				},
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      fmt.Sprintf("%s-%s", resource.Name, "-sample-pod"),
-					Namespace: resource.Namespace,
-					Labels: map[string]string{
-						"image-pod": resource.Name,
-						"app":       resource.Name},
-				},
-				Spec: corev1.PodSpec{
-					Containers: []corev1.Container{
-						{
-							Image: "nginx:latest",
-							Name:  "nginx",
-						},
+	return &reconcilers.Advice[*imagev1alpha1.PodSync]{
+		Reconciler: &reconcilers.ChildReconciler[*imagev1alpha1.PodSync, *corev1.Pod, *corev1.PodList]{
+			Name: "SinglePodReconcile",
+			DesiredChild: func(ctx context.Context, resource *imagev1alpha1.PodSync) (*corev1.Pod, error) {
+				podToDeploy := &corev1.Pod{
+					TypeMeta: metav1.TypeMeta{
+						Kind:       "Pod",
+						APIVersion: "v1",
 					},
-					ActiveDeadlineSeconds: ptr.Int64(100),
-				},
-			}, nil
+					ObjectMeta: metav1.ObjectMeta{
+						Name:      fmt.Sprintf("%s-%s", resource.Name, "-sample-pod"),
+						Namespace: resource.Namespace,
+						Labels: map[string]string{
+							"image-pod": resource.Name,
+							"app":       resource.Name},
+					},
+					Spec: corev1.PodSpec{
+						Containers: []corev1.Container{
+							{
+								Image: "nginx:latest",
+								Name:  "nginx",
+							},
+						},
+						ActiveDeadlineSeconds: ptr.Int64(100),
+					},
+				}
+
+				return podToDeploy, nil
+			},
+			MergeBeforeUpdate: func(current, desired *corev1.Pod) {
+				desired.Labels = current.Labels
+				desired.Annotations = current.Annotations
+			},
+			ReflectChildStatusOnParent: func(ctx context.Context, parent *imagev1alpha1.PodSync, child *corev1.Pod, err error) {
+				log := logr.FromContextOrDiscard(ctx)
+				if err != nil {
+					log.Error(err, "failed to merge child pod status")
+				}
+
+				if child == nil {
+					return
+				}
+
+				parent.Status.PodName = child.Name
+			},
 		},
-		MergeBeforeUpdate: func(current, desired *corev1.Pod) {
-			desired.Labels = current.Labels
-			desired.Annotations = current.Annotations
-		},
-		ReflectChildStatusOnParent: func(ctx context.Context, parent *imagev1alpha1.PodSync, child *corev1.Pod, err error) {
-			log := logr.FromContextOrDiscard(ctx)
+		After: func(ctx context.Context, resource *imagev1alpha1.PodSync, result reconcilers.Result, err error) (reconcilers.Result, error) {
 			if err != nil {
-				log.Error(err, "failed to merge child pod status")
+				resource.Status.PodName = err.Error()
+				// set failed status here
+				return result, err
 			}
+			return result, err
 		},
 	}
 }

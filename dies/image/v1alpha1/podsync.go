@@ -7,7 +7,7 @@ import (
 // +die:object=true
 type _ = imagev1alpha1.PodSync
 
-// +diey
+// +die
 type _ = imagev1alpha1.PodSyncStatus
 
 // +die
