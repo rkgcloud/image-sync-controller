@@ -22,6 +22,10 @@ import (
 	"reconciler.io/runtime/apis"
 )
 
+var (
+	ImageSyncLabelKey = GroupVersion.Group + "/image-sync"
+)
+
 const (
 	ImageSyncConditionSucceeded           = apis.ConditionReady
 	ImageSyncConditionSourceResolved      = "SourceResolved"
@@ -33,7 +37,7 @@ var ImageSyncConditionSet = apis.NewLivingConditionSet(
 	ImageSyncConditionDestinationResolved,
 )
 
-func (s *ImageSyncStatus) InitializeConditions(ctx context.Context) {
-	conditionManager := ImageSyncConditionSet.ManageWithContext(ctx, s)
+func (i *ImageSyncStatus) InitializeConditions(ctx context.Context) {
+	conditionManager := ImageSyncConditionSet.ManageWithContext(ctx, i)
 	conditionManager.InitializeConditions()
 }

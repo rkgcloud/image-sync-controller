@@ -22,6 +22,10 @@ import (
 	"reconciler.io/runtime/apis"
 )
 
+var (
+	PodSyncLabelKey = GroupVersion.Group + "/pod-sync"
+)
+
 const (
 	PodSyncConditionSucceeded    = apis.ConditionReady
 	PodSyncConditionPodCreated   = "PodCreated"
@@ -38,4 +42,37 @@ var PodSyncConditionSet = apis.NewLivingConditionSet(
 func (s *PodSyncStatus) InitializeConditions(ctx context.Context) {
 	conditionManager := ImageSyncConditionSet.ManageWithContext(ctx, s)
 	conditionManager.InitializeConditions()
+}
+
+func (s *PodSyncStatus) GetConditionsAccessor() apis.ConditionsAccessor {
+	return &s.Status
+}
+
+func (s *PodSyncStatus) GetConditionSet() apis.ConditionSet {
+	return PodSyncConditionSet
+}
+
+func (s *PodSyncStatus) MarkPodSyncConditionPodCreated(ctx context.Context) {
+	PodSyncConditionSet.ManageWithContext(ctx, s).MarkTrue(PodSyncConditionPodCreated,
+		"PodCreated", "The Pod has been created")
+}
+
+func (s *PodSyncStatus) MarkPodSyncConditionPodCreateFailed(ctx context.Context, message string) {
+	PodSyncConditionSet.ManageWithContext(ctx, s).MarkFalse(PodSyncConditionPodCreated,
+		"PodCreateFailed", message)
+}
+
+func (s *PodSyncStatus) MarkPodSyncConditionPodRunning(ctx context.Context) {
+	PodSyncConditionSet.ManageWithContext(ctx, s).MarkTrue(PodSyncConditionPodRunning,
+		"PodRunning", "The Pod is running")
+}
+
+func (s *PodSyncStatus) MarkPodSyncConditionPodRunFailed(ctx context.Context, message string) {
+	PodSyncConditionSet.ManageWithContext(ctx, s).MarkFalse(PodSyncConditionPodRunning,
+		"PodRunFailed", message)
+}
+
+func (s *PodSyncStatus) MarkPodSyncConditionPodCompleted(ctx context.Context) {
+	PodSyncConditionSet.ManageWithContext(ctx, s).MarkTrue(PodSyncConditionPodCompleted,
+		"PodCompleted", "The Pod is completed")
 }

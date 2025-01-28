@@ -16,7 +16,7 @@ resources:
   domain: apps.rkgcloud.com
   group: image
   kind: ImageSync
-  path: github.com/rkgcloud/image-sync-controller/api/v1alpha1
+  path: github.com/rkgcloud/image-sync-controller/api/image/v1alpha1
   version: v1alpha1
 - api:
     crdVersion: v1
