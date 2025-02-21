@@ -6,7 +6,7 @@ toolchain go1.23.5
 
 require (
 	github.com/go-logr/logr v1.4.2
-	github.com/google/go-cmp v0.6.0
+	github.com/google/go-cmp v0.7.0
 	go.uber.org/zap v1.27.0
 	k8s.io/api v0.32.1
 	k8s.io/apimachinery v0.32.1
